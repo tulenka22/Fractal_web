@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fractal House — Concept</title>
+
+<style>
+:root {
+    --bg: #0b0c10;
+    --panel: #15171d;
+    --accent: #41baa8;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+header {
+    padding: 28px 0;
+    font-size: 26px;
+    letter-spacing: 1.4px;
+    font-weight: 600;
+    text-align: center;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    flex: 1;
+}
+
+.panel {
+    background: var(--panel);
+    border-radius: 18px;
+    padding: 28px;
+    height: fit-content;
+}
+
+.panel h3 {
+    margin-top: 0;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+label {
+    font-size: 13px;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+}
+
+select {
+    width: 100%;
+    margin: 8px 0 18px;
+    padding: 12px 14px;
+    background: #1f2933;
+    color: var(--text);
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* ===== TOGGLE ===== */
+.toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1f2933;
+    border-radius: 14px;
+    padding: 6px;
+    margin: 20px 0;
+}
+
+.toggle span {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    z-index: 2;
+    pointer-events: none;
+    font-weight: 600;
+    text-shadow: black 1px 1px;
+}
+
+.toggle-track {
+    position: absolute;
+    width: 50%;
+    height: 36px;
+    background: var(--accent);
+    border-radius: 10px;
+    transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+}
+
+.toggle-wrapper {
+    position: relative;
+    height: 36px;
+    cursor: pointer;
+}
+
+/* ===== SCENE ===== */
+.scene {
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    background: #000;
+    height: 560px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.scene img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.scene img.fade {
+    opacity: 0;
+    transform: scale(1.04);
+}
+
+footer {
+    padding: 16px 0;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: auto;
+}
+
+/* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+    
+    header {
+        padding: 20px 0;
+        font-size: 22px;
+        letter-spacing: 1px;
+    }
+    
+    main {
+         display: flex;
+        gap: 16px;
+        padding: 0;
+        margin-top: 0;
+        flex-wrap: wrap;
+        flex: 0;
+    }
+    
+    .panel {
+        padding: 20px;
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        margin-bottom: 0; /* Убрал отступ снизу */
+    }
+    
+    .panel h3 {
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 16px;
+    }
+    
+    .scene {
+        height: 380px; /* Немного уменьшил высоту для баланса */
+        max-width: 100%;
+        border-radius: 16px;
+        margin-top: 0; /* Убрал отступ сверху */
+    }
+    
+    select {
+        padding: 10px 12px;
+        font-size: 13px;
+        margin: 6px 0 14px; /* Уменьшил отступы */
+    }
+    
+    .toggle {
+        margin: 14px 0; /* Уменьшил отступы */
+    }
+    
+    footer {
+        padding: 12px 0;
+        font-size: 11px;
+        margin-top: 16px; /* Уменьшил отступ сверху */
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        font-size: 20px;
+        padding: 16px 0;
+    }
+    
+    main {
+        gap: 12px; /* Ещё меньше расстояние на очень маленьких экранах */
+    }
+    
+    .panel {
+        padding: 16px;
+        border-radius: 14px;
+    }
+    
+    .scene {
+        height: 320px; /* Ещё меньше высота на маленьких экранах */
+        border-radius: 12px;
+    }
+    
+    .toggle span {
+        font-size: 12px;
+    }
+    
+    .toggle-track {
+        height: 32px;
+    }
+    
+    .toggle-wrapper {
+        height: 32px;
+    }
+    
+    footer {
+        margin-top: 12px;
+    }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 360px) {
+    .container {
+        padding: 0 12px;
+    }
+    
+    header {
+        font-size: 18px;
+        padding: 14px 0;
+    }
+    
+    .panel h3 {
+        font-size: 16px;
+    }
+    
+    .scene {
+        height: 280px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <header>Концепты зданий</header>
+
+    <main>
+        <div class="panel">
+            <h3>Параметры здания</h3>
+
+            <label>Форма здания</label>
+            <select id="shape">
+                <option value="pram">прямоугольник</option>
+                <option value="sfera">Сфера</option>
+                <option value="piramid">Пирамида</option>
+            </select>
+
+            <label>Покрытие</label>
+            <select id="cover">
+                <option value="soty">Соты</option>
+                <option value="romb">Ромбы</option>
+                <option value="star">Звёзды</option>
+            </select>
+
+            <label>Режим отображения</label>
+            <div class="toggle-wrapper" onclick="toggleMode()">
+                <div class="toggle">
+                    <div id="track" class="toggle-track"></div>
+                    <span>Концепт</span>
+                    <span>В городе</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="scene">
+            <img id="result" src="images/pram_soty.png">
+        </div>
+    </main>
+
+    <footer>
+        Растегаев Максим и Кубрин Богдан - 31ИСР КИТЭК
+    </footer>
+</div>
+
+<script>
+let mode = 'concept';
+
+function updateImage() {
+    const shape = document.getElementById('shape').value;
+    const cover = document.getElementById('cover').value;
+    const img = document.getElementById('result');
+
+    img.classList.add('fade');
+
+    setTimeout(() => {
+        img.src = mode === 'concept'
+            ? `images/${shape}_${cover}.png`
+            : `images/city_${shape}_${cover}.png`;
+
+        img.classList.remove('fade');
+    }, 300);
+}
+
+function toggleMode() {
+    const track = document.getElementById('track');
+    mode = mode === 'concept' ? 'city' : 'concept';
+
+    track.style.transform =
+        mode === 'city' ? 'translateX(100%)' : 'translateX(0)';
+
+    updateImage();
+}
+
+document.getElementById('shape').onchange = updateImage;
+document.getElementById('cover').onchange = updateImage;
+</script>
+
+</body>
+</html>
